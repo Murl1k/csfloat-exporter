@@ -1,0 +1,12 @@
+# экспорты аккаунта (внутри живая сессия, коммитить нельзя)
+csfloat-account.json
+*.export.json
+
+# сборки
+*.zip
+*.crx
+*.pem
+
+# мусор ОС
+.DS_Store
+Thumbs.db

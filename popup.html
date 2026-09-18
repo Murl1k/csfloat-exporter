@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --bg: #0f1012;
+    --panel: #17181b;
+    --line: #26282d;
+    --text: #ececed;
+    --muted: #8a8d94;
+    --accent: #e8eaed;
+    --accent-ink: #0f1012;
+    --ok: #7bd88f;
+    --err: #f2777a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    width: 300px;
+    margin: 0;
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+  header { margin-bottom: 20px; }
+  h1 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  header p {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 4px 0 0;
+    line-height: 1.4;
+  }
+
+  .group { margin-bottom: 18px; }
+  .label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .label::before {
+    content: "";
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--line);
+    flex: none;
+  }
+  .group.src .label::before { background: #6f8cff; }
+  .group.dst .label::before { background: var(--ok); }
+
+  .row { display: flex; gap: 8px; }
+  button {
+    flex: 1;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background .12s, border-color .12s;
+    text-align: left;
+  }
+  button:hover { background: #1e2024; border-color: #34373d; }
+  button:active { background: #141517; }
+  button.primary {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  button.primary:hover { background: #fff; }
+  button .k {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    opacity: .6;
+    margin-top: 2px;
+  }
+
+  .divider { height: 1px; background: var(--line); margin: 20px 0; }
+
+  #status {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--muted);
+    white-space: pre-wrap;
+    min-height: 16px;
+  }
+  #status.ok { color: var(--ok); }
+  #status.err { color: var(--err); }
+
+  input[type=file] { display: none; }
+</style>
+</head>
+<body>
+  <header>
+    <h1>CSFloat · перенос входа</h1>
+    <p>Копирует сессию из одного профиля Chrome в другой — без входа через Steam.</p>
+  </header>
+
+  <div class="group src">
+    <div class="label">Профиль, где вы уже вошли</div>
+    <div class="row">
+      <button id="export-file" class="primary">Сохранить в файл<span class="k">csfloat-account.json</span></button>
+      <button id="export-clip">В буфер<span class="k">скопировать JSON</span></button>
+    </div>
+  </div>
+
+  <div class="group dst">
+    <div class="label">Новый профиль</div>
+    <div class="row">
+      <button id="import-file">Из файла<span class="k">выбрать .json</span></button>
+      <button id="import-clip">Из буфера<span class="k">вставить JSON</span></button>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div id="status">Откройте вкладку csfloat.com и выберите действие.</div>
+
+  <input type="file" id="file" accept=".json,application/json">
+  <script src="popup.js"></script>
+</body>
+</html>
