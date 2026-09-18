@@ -1,0 +1,26 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build extension zip
+        run: |
+          zip -r csfloat-exporter.zip \
+            manifest.json background.js popup.html popup.js icons \
+            -x "*.DS_Store"
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: csfloat-exporter.zip
