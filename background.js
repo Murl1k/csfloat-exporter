@@ -7,7 +7,8 @@ async function collectCookies() {
 
 async function setCookies(cookies) {
   let ok = 0, fail = 0;
-  for (const c of cookies) {
+  const ordered = [...cookies].sort((a, b) => Number(a.hostOnly) - Number(b.hostOnly));
+  for (const c of ordered) {
     const host = c.domain.startsWith(".") ? c.domain.slice(1) : c.domain;
     const url = "https://" + host + (c.path || "/");
     const details = {
@@ -22,16 +23,26 @@ async function setCookies(cookies) {
     };
     if (!c.hostOnly) details.domain = c.domain;
     if (c.expirationDate) details.expirationDate = c.expirationDate;
+    const set = async (d) => {
+      const r = await chrome.cookies.set(d);
+      if (!r) throw new Error("rejected");
+      return r;
+    };
     try {
-      await chrome.cookies.set(details);
+      await set(details);
       ok++;
     } catch (e) {
       try {
-        await chrome.cookies.set({ ...details, sameSite: "lax" });
+        await set({ ...details, sameSite: "lax" });
         ok++;
       } catch (e2) {
-        fail++;
-        console.warn("cookie set failed:", c.name, e2);
+        try {
+          await set({ ...details, sameSite: "no_restriction", secure: true });
+          ok++;
+        } catch (e3) {
+          fail++;
+          console.warn("cookie set failed:", c.name, c.domain, e3.message);
+        }
       }
     }
   }
