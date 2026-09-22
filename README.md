@@ -1,5 +1,7 @@
 # CSFloat Account Transfer
 
+Русский · [English](README.en.md)
+
 Расширение для Chrome, которое переносит вход в CSFloat из одного профиля браузера в другой. Без повторного входа через Steam.
 
 Работает только со своими аккаунтами. Переносите то, что вам принадлежит.
@@ -18,7 +20,7 @@ CSFloat держит авторизацию в двух местах: кука s
 
 ## Установка в Chrome
 
-Скачай архив csfloat-exporter.zip из раздела Releases и распакуй его. Потом:
+Скачай архив csfloat-exporter.zip из [последнего релиза](https://github.com/Murl1k/csfloat-exporter/releases/latest) и распакуй его. Потом:
 
 1. Открой chrome://extensions
 2. Включи Developer mode (переключатель справа сверху)
